@@ -52,7 +52,10 @@ esphome:
           then:
             - lambda: id(init_in_progress) = false;
             - script.execute: draw_display
-
+      - lambda: |-
+          auto volume_component = id(speaker_volume);
+          volume_component->set_volume(0.9);
+          
 esp32:
   board: esp32s3box
   flash_size: 16MB
@@ -80,6 +83,12 @@ external_components:
   - source: github://jesserockz/esphome-components
     components: [file]
     refresh: 0s
+  - source: github://mdieperink/esphome-esp-s3-box-3-volume@main
+    components: [esp_box_volume]
+    refresh: 0s
+
+esp_box_volume:
+  id: speaker_volume
 
 api:
   on_client_connected:
